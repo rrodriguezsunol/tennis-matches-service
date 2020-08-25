@@ -86,19 +86,21 @@ the Restful service by executing the following command:
 
 > `java -jar tennis-matches-service-X.X.X-SNAPSHOT.jar --spring.profiles.active=dev`
 
-Enter `http://localhost:8080/licensed-matches` in the URL of your web browser. You should get a JSON back with all the 
+Enter `http://localhost:8080/matches` in the URL of your web browser. You should get a JSON back with all the 
 matches that were inserted as part of the `initial_data.sql` script. 
 
 ## Tech Stack
 
 The production code uses these key frameworks:
 
-* Java 11
-* Spring Boot 2
-    * Spring MVC for exposing REST endpoints
-    * Spring Data/JPA 2.2/Hibernate trio for the ORM layer
-* Jackson for JSON marshalling and unmarshalling
-* JSON as the data format representation for our API
+* Java 11.
+* Spring Boot 2:
+    * Spring MVC for exposing REST endpoints.
+    * Spring Data/JPA 2.2/Hibernate trio for the ORM layer.
+* Jackson for JSON marshalling and unmarshalling.
+* JSON as the data format representation for our API.
+* HSQLDB as the persistence store.
+* Liquibase for data and schema migrations.
 
 The test code uses these main libraries:
 
@@ -108,6 +110,7 @@ The test code uses these main libraries:
 * Mockito.
 * JsonUnit (Fluent): for asserting on JSON strings.
 
-Persistence store:
+## Assumptions
 
-* HSQLDB
+* This service assumes that there's a API Gateway - Security duo that populates a *user profile info* header from the access token header provided by the client, be it web
+or mobile app. For the purposes of this exercise and in order to keep things simple, **User-Id** acts as the user profile info header.

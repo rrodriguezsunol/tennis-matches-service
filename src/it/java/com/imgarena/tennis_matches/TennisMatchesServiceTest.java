@@ -30,7 +30,7 @@ public class TennisMatchesServiceTest {
     @Test
     public void retrieveZeroLicensedMatchesForCustomerWithoutPurchases() {
 
-        var requestEntity = RequestEntity.post(URI.create("/matches?licensed=true"))
+        var requestEntity = RequestEntity.get(URI.create("/matches?purchaseStatus=licensed"))
                 .header("User-Id", "12345")
                 .accept(MediaType.APPLICATION_JSON)
                 .build();

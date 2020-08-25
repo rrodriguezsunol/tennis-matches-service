@@ -196,6 +196,11 @@
 
         <!-- End of Spring Boot starters -->
 
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.5.1</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
