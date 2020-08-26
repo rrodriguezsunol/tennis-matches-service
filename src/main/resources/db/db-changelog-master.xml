@@ -14,6 +14,9 @@
             <column name="id" type="int">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="start_date_time" type="timestamp">
+                <constraints nullable="false" />
+            </column>
             <column name="player_a_name" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
@@ -29,6 +32,7 @@
 
         <insert tableName="tennis_match">
             <column name="id" value="1" />
+            <column name="start_date_time" value="2020-07-15 18:00:00" />
             <column name="player_a_name" value="Rafael Nadal" />
             <column name="player_b_name" value="Roger Federer" />
             <column name="customer_buyer_id" value="5678" />

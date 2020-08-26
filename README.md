@@ -87,7 +87,7 @@ the Restful service by executing the following command:
 > `java -jar tennis-matches-service-X.X.X-SNAPSHOT.jar --spring.profiles.active=dev`
 
 Enter `http://localhost:8080/tennis-matches` in the URL of your web browser. You should get a JSON back with all the 
-matches that were inserted as part of the `initial_data.sql` script. 
+matches that were inserted as part of the `db-changelog-master.xml` liquibase migration script. 
 
 ## Tech Stack
 
@@ -116,3 +116,4 @@ The test code uses these main libraries:
 or mobile app. For the purposes of this exercise and in order to keep things simple, **User-Id** acts as the user profile info header.
 * The `purchaseStatus` query param is an enumeration of values. This allows for a more flexible param that can be used to retrieve not only a customer's purchased matches but
 also to list the ones that are available for purchase, or all of them.
+* The column `tennis_match.start_date_time` is a timestamp without timezone. All the dates stored are assumed to be in UTC time.

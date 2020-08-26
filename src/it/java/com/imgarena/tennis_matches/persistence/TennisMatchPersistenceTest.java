@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +40,11 @@ public class TennisMatchPersistenceTest {
 
         Collection<TennisMatch> foundMatches = tennisMatchPersistence.findByCustomerBuyerId(customerWithOneMatchPurchased);
 
-        assertThat(foundMatches).containsOnly(new TennisMatch(1, "Rafael Nadal", "Roger Federer", customerWithOneMatchPurchased));
+        assertThat(foundMatches).containsOnly(new TennisMatch(
+                1,
+                LocalDateTime.parse("2020-07-15T18:00:00"),
+                "Rafael Nadal",
+                "Roger Federer",
+                customerWithOneMatchPurchased));
     }
 }
