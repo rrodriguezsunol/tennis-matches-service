@@ -20,6 +20,6 @@ public class TennisMatchController {
     public ResponseEntity getUpcomingBettingEvents(
             @RequestHeader(name = "User-Id", required = false) String userId) {
 
-        return ResponseEntity.ok(fetchPurchasedMatches.byCustomerId(userId));
+        return ResponseEntity.ok(fetchPurchasedMatches.forCustomer(userId));
     }
 }

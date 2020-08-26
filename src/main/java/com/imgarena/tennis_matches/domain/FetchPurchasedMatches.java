@@ -18,7 +18,7 @@ public class FetchPurchasedMatches {
         this.tennisMatchPersistence = tennisMatchPersistence;
     }
 
-    public Collection<TennisMatchDto> byCustomerId(String customerId) {
+    public Collection<TennisMatchDto> forCustomer(String customerId) {
         List<TennisMatchDto> singleMatchPurchases = tennisMatchPersistence.findSinglePurchases(customerId)
                 .stream()
                 .map(this::toDto)

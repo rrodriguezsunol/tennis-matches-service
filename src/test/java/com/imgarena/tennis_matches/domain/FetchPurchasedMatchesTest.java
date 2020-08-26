@@ -37,7 +37,7 @@ public class FetchPurchasedMatchesTest {
     public void returnsZeroMatchDtosWhenPersistenceReturnsZeroResults() {
         given(mockedTennisMatchPersistence.findSinglePurchases(any())).willReturn(List.of());
 
-        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId(aCustomerId);
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.forCustomer(aCustomerId);
 
         assertThat(foundMatches).isEmpty();
     }
@@ -47,7 +47,7 @@ public class FetchPurchasedMatchesTest {
         given(mockedTennisMatchPersistence.findSinglePurchases("5678"))
                 .willReturn(List.of(new TennisMatch(1, LocalDateTime.parse("2020-07-15T18:00:00"), "Rafael Nadal", "Roger Federer")));
 
-        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.forCustomer("5678");
 
         assertThat(foundMatches).containsOnly(
                 new TennisMatchDto(
@@ -66,7 +66,7 @@ public class FetchPurchasedMatchesTest {
                         new TennisMatch(2, LocalDateTime.parse("2020-10-25T10:00:00"), "Andy Murray", "Novak Djokovic")
                 ));
 
-        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.forCustomer("5678");
 
         assertThat(foundMatches).containsOnly(new TennisMatchDto(
                         1,
@@ -94,7 +94,7 @@ public class FetchPurchasedMatchesTest {
                         new TennisMatch(3, LocalDateTime.parse("2020-10-25T10:00:00"), "Andy Murray", "Novak Djokovic")
                 ));
 
-        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.forCustomer("5678");
 
         assertThat(foundMatches).containsOnly(
                 new TennisMatchDto(
