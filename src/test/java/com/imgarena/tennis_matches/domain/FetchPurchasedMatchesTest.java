@@ -24,7 +24,7 @@ public class FetchPurchasedMatchesTest {
     private TennisMatchPersistence mockedTennisMatchPersistence = Mockito.mock(TennisMatchPersistence.class);
 
     // Test data
-    private String aCustomerId;
+    private String aCustomerId = "1234";
 
 
     @Before
@@ -35,7 +35,7 @@ public class FetchPurchasedMatchesTest {
 
     @Test
     public void returnsZeroMatchDtosWhenPersistenceReturnsZeroResults() {
-        given(mockedTennisMatchPersistence.findByCustomerBuyerId(any())).willReturn(List.of());
+        given(mockedTennisMatchPersistence.findSinglePurchases(any())).willReturn(List.of());
 
         Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId(aCustomerId);
 
@@ -44,18 +44,77 @@ public class FetchPurchasedMatchesTest {
 
     @Test
     public void returnsOneMatchDtoWhenPersistenceReturnsOneTennisMatch() {
-        LocalDateTime matchStartDateTime = LocalDateTime.parse("2020-07-15T18:00:00");
+        given(mockedTennisMatchPersistence.findSinglePurchases("5678"))
+                .willReturn(List.of(new TennisMatch(1, LocalDateTime.parse("2020-07-15T18:00:00"), "Rafael Nadal", "Roger Federer")));
 
-        given(mockedTennisMatchPersistence.findByCustomerBuyerId(any()))
-                .willReturn(List.of(new TennisMatch(1, matchStartDateTime, "Rafael Nadal", "Roger Federer")));
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
+
+        assertThat(foundMatches).containsOnly(
+                new TennisMatchDto(
+                        1,
+                        ZonedDateTime.parse("2020-07-15T18:00:00Z"),
+                        "Rafael Nadal",
+                        "Roger Federer",
+                        "Rafael Nadal vs Roger Federer"));
+    }
+
+    @Test
+    public void returnsAllMatchDtosThatBelongToAPurchasedTournament() {
+        given(mockedTennisMatchPersistence.findAllInTournamentPurchases("5678"))
+                .willReturn(List.of(
+                        new TennisMatch(1, LocalDateTime.parse("2020-10-23T12:00:00"), "Serena Williams", "Simona Halep"),
+                        new TennisMatch(2, LocalDateTime.parse("2020-10-25T10:00:00"), "Andy Murray", "Novak Djokovic")
+                ));
 
         Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
 
         assertThat(foundMatches).containsOnly(new TennisMatchDto(
-                1,
-                ZonedDateTime.parse("2020-07-15T18:00:00Z"),
-                "Rafael Nadal",
-                "Roger Federer",
-                "Rafael Nadal vs Roger Federer"));
+                        1,
+                        ZonedDateTime.parse("2020-10-23T12:00:00Z"),
+                        "Serena Williams",
+                        "Simona Halep",
+                        "Serena Williams vs Simona Halep"),
+                new TennisMatchDto(
+                        2,
+                        ZonedDateTime.parse("2020-10-25T10:00:00Z"),
+                        "Andy Murray",
+                        "Novak Djokovic",
+                        "Andy Murray vs Novak Djokovic")
+        );
+    }
+
+    @Test
+    public void returnsBothSingleMatchPurchaseAsWellAsMatchesFromTournamentPurchased() {
+        given(mockedTennisMatchPersistence.findSinglePurchases("5678"))
+                .willReturn(List.of(new TennisMatch(1, LocalDateTime.parse("2020-07-15T18:00:00"), "Rafael Nadal", "Roger Federer")));
+
+        given(mockedTennisMatchPersistence.findAllInTournamentPurchases("5678"))
+                .willReturn(List.of(
+                        new TennisMatch(2, LocalDateTime.parse("2020-10-23T12:00:00"), "Serena Williams", "Simona Halep"),
+                        new TennisMatch(3, LocalDateTime.parse("2020-10-25T10:00:00"), "Andy Murray", "Novak Djokovic")
+                ));
+
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
+
+        assertThat(foundMatches).containsOnly(
+                new TennisMatchDto(
+                        1,
+                        ZonedDateTime.parse("2020-07-15T18:00:00Z"),
+                        "Rafael Nadal",
+                        "Roger Federer",
+                        "Rafael Nadal vs Roger Federer"),
+                new TennisMatchDto(
+                        2,
+                        ZonedDateTime.parse("2020-10-23T12:00:00Z"),
+                        "Serena Williams",
+                        "Simona Halep",
+                        "Serena Williams vs Simona Halep"),
+                new TennisMatchDto(
+                        3,
+                        ZonedDateTime.parse("2020-10-25T10:00:00Z"),
+                        "Andy Murray",
+                        "Novak Djokovic",
+                        "Andy Murray vs Novak Djokovic")
+        );
     }
 }

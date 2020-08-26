@@ -29,7 +29,7 @@ public class TennisMatchPersistenceTest {
     public void findByCustomerBuyerIdReturnsZeroMatchesWhenTheCustomerHasNoPurchases() {
         var customerWithoutPurchases = "1234";
 
-        Collection<TennisMatch> foundMatches = tennisMatchPersistence.findByCustomerBuyerId(customerWithoutPurchases);
+        Collection<TennisMatch> foundMatches = tennisMatchPersistence.findSinglePurchases(customerWithoutPurchases);
 
         assertThat(foundMatches).isEmpty();
     }
@@ -38,7 +38,7 @@ public class TennisMatchPersistenceTest {
     public void findByCustomerBuyerReturnsOneMatchWhenTheCustomerHasPurchasedIt() {
         var customerWithOneMatchPurchased = "5678";
 
-        Collection<TennisMatch> foundMatches = tennisMatchPersistence.findByCustomerBuyerId(customerWithOneMatchPurchased);
+        Collection<TennisMatch> foundMatches = tennisMatchPersistence.findSinglePurchases(customerWithOneMatchPurchased);
 
         assertThat(foundMatches).containsOnly(new TennisMatch(
                 1,

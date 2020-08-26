@@ -8,6 +8,7 @@ public class TennisMatch {
     private LocalDateTime startDateTime;
     private String playerAName;
     private String playerBName;
+    private Tournament tournament;
 
     // JPA requirement
     protected TennisMatch() {}
@@ -35,29 +36,22 @@ public class TennisMatch {
         return playerBName;
     }
 
+    public Tournament getTournament() {
+        return tournament;
+    }
+
+    // Equals and Hashcode implementations that avoid fetching associated entities inadvertently
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TennisMatch that = (TennisMatch) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(startDateTime, that.startDateTime) &&
-                Objects.equals(playerAName, that.playerAName) &&
-                Objects.equals(playerBName, that.playerBName);
+
+        return id != null && Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startDateTime, playerAName, playerBName);
-    }
-
-    @Override
-    public String toString() {
-        return "TennisMatch{" +
-                "id=" + id +
-                ", startDateTime=" + startDateTime +
-                ", playerAName='" + playerAName + '\'' +
-                ", playerBName='" + playerBName + '\'' +
-                '}';
+        return 31;
     }
 }

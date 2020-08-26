@@ -20,7 +20,7 @@ public class TennisMatchController {
 
     @GetMapping(path = "/tennis-matches", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getUpcomingBettingEvents(
-            @RequestHeader("User-Id") String userId,
+            @RequestHeader(name="User-Id", required = false) String userId,
             @RequestParam(required = false) @Nullable String purchaseStatus) {
 
         return ResponseEntity.ok(fetchPurchasedMatches.byCustomerId(userId));

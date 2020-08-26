@@ -8,7 +8,11 @@ import java.util.Collection;
 
 public interface TennisMatchPersistence extends Repository<TennisMatch, Integer> {
 
-    @Query("SELECT tm FROM TennisMatch tm, PurchasedLicense pl " +
+    @Query("SELECT DISTINCT tm FROM TennisMatch tm, PurchasedLicense pl " +
             "WHERE pl.tennisMatch = tm AND pl.customerBuyerId = ?1")
-    Collection<TennisMatch> findByCustomerBuyerId(String customerId);
+    Collection<TennisMatch> findSinglePurchases(String customerId);
+
+    @Query("SELECT DISTINCT tm FROM TennisMatch tm, PurchasedLicense pl, Tournament t " +
+            "WHERE pl.tournament = t AND tm.tournament = t AND pl.customerBuyerId = ?1")
+    Collection<TennisMatch> findAllInTournamentPurchases(String customerId);
 }

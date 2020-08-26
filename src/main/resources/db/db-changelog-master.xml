@@ -8,6 +8,15 @@
     <changeSet id="1" author="raimon">
         <comment>Initial schema</comment>
 
+        <createTable tableName="tournament">
+            <column name="id" type="integer" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
         <createTable tableName="tennis_match">
             <column name="id" type="integer" autoIncrement="true" startWith="1">
                 <constraints primaryKey="true" nullable="false"/>
@@ -21,6 +30,9 @@
             <column name="player_b_name" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
+            <column name="tournament_id" type="integer">
+                <constraints nullable="false" foreignKeyName="fk_tournament_id_in_tennis_match" referencedTableName="tournament" referencedColumnNames="id"/>
+            </column>
         </createTable>
 
         <createTable tableName="purchased_license">
@@ -28,7 +40,10 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="tennis_match_id" type="integer">
-                <constraints nullable="false" foreignKeyName="fk_tennis_match_id" referencedTableName="tennis_match" referencedColumnNames="id"/>
+                <constraints nullable="true" foreignKeyName="fk_tennis_match_id" referencedTableName="tennis_match" referencedColumnNames="id"/>
+            </column>
+            <column name="tournament_id" type="integer">
+                <constraints nullable="true" foreignKeyName="fk_tournament_id_in_purchased_license" referencedTableName="tournament" referencedColumnNames="id"/>
             </column>
             <column name="customer_buyer_id" type="char(4)">
                 <constraints nullable="false" />
@@ -39,10 +54,33 @@
     <changeSet id="2" author="raimon">
         <comment>Initial data</comment>
 
+        <insert tableName="tournament">
+            <column name="name" value="Wimbledon" />
+        </insert>
+
+        <insert tableName="tournament">
+            <column name="name" value="US Open" />
+        </insert>
+
         <insert tableName="tennis_match">
             <column name="start_date_time" value="2020-07-15 18:00:00" />
             <column name="player_a_name" value="Rafael Nadal" />
             <column name="player_b_name" value="Roger Federer" />
+            <column name="tournament_id" value="1" />
+        </insert>
+
+        <insert tableName="tennis_match">
+            <column name="start_date_time" value="2020-10-23 12:00:00" />
+            <column name="player_a_name" value="Serena Williams" />
+            <column name="player_b_name" value="Simona Halep" />
+            <column name="tournament_id" value="2" />
+        </insert>
+
+        <insert tableName="tennis_match">
+            <column name="start_date_time" value="2020-10-25 10:00:00" />
+            <column name="player_a_name" value="Andy Murray" />
+            <column name="player_b_name" value="Novak Djokovic" />
+            <column name="tournament_id" value="2" />
         </insert>
 
         <insert tableName="purchased_license">
@@ -52,6 +90,10 @@
         <insert tableName="purchased_license">
             <column name="tennis_match_id" value="1" />
             <column name="customer_buyer_id" value="8736" />
+        </insert>
+        <insert tableName="purchased_license">
+            <column name="tournament_id" value="2" />
+            <column name="customer_buyer_id" value="2904" />
         </insert>
     </changeSet>
 

@@ -13,6 +13,7 @@
             <basic name="playerBName">
                 <column name="player_b_name" />
             </basic>
+            <many-to-one name="tournament" fetch="LAZY" />
         </attributes>
     </entity>
 
@@ -23,6 +24,16 @@
                 <column name="customer_buyer_id" />
             </basic>
             <many-to-one name="tennisMatch" fetch="LAZY" />
+            <many-to-one name="tournament" fetch="LAZY" />
+        </attributes>
+    </entity>
+
+    <entity class="com.imgarena.tennis_matches.domain.Tournament" access="FIELD">
+        <attributes>
+            <id name="id" />
+            <basic name="name">
+                <column name="name" />
+            </basic>
         </attributes>
     </entity>
 

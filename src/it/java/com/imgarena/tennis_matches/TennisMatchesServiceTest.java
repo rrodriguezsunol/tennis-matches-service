@@ -83,4 +83,18 @@ public class TennisMatchesServiceTest {
 
         assertThatJson(responseEntity.getBody()).isEqualTo(Resources.readFile("expectations/get-one-match.json"));
     }
+
+    @Test
+    public void retrieveAllMatchesOfATournamentWhenTheCustomerBoughtTheEntireTournament() {
+        var requestEntity = RequestEntity.get(URI.create(TENNIS_MATCHES_PATH))
+                .header(USER_ID_HEADER_KEY, "2904")
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThatJson(responseEntity.getBody()).isEqualTo(Resources.readFile("expectations/all-us-open-matches.json"));
+    }
 }

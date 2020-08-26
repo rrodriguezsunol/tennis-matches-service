@@ -5,7 +5,9 @@ import com.imgarena.tennis_matches.persistence.TennisMatchPersistence;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,10 +19,20 @@ public class FetchPurchasedMatches {
     }
 
     public Collection<TennisMatchDto> byCustomerId(String customerId) {
-        return tennisMatchPersistence.findByCustomerBuyerId(customerId)
+        List<TennisMatchDto> singleMatchPurchases = tennisMatchPersistence.findSinglePurchases(customerId)
                 .stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
+
+        List<TennisMatchDto> tournamentMatchesPurchases = tennisMatchPersistence.findAllInTournamentPurchases(customerId)
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+
+        List<TennisMatchDto> allMatches = new ArrayList<>(singleMatchPurchases);
+        allMatches.addAll(tournamentMatchesPurchases);
+
+        return allMatches;
     }
 
     private TennisMatchDto toDto(TennisMatch tennisMatch) {
