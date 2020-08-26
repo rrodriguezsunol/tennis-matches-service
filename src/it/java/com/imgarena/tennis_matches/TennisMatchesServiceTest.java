@@ -24,6 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("dev")
 public class TennisMatchesServiceTest {
+    private static final String USER_ID_HEADER_KEY = "User-Id";
+    private static final String TENNIS_MATCHES_PATH = "/tennis-matches?purchaseStatus=licensed";
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -31,8 +33,8 @@ public class TennisMatchesServiceTest {
     @Test
     public void retrieveZeroLicensedMatchesForACustomerWithoutPurchases() {
 
-        var requestEntity = RequestEntity.get(URI.create("/tennis-matches?purchaseStatus=licensed"))
-                .header("User-Id", "1234")
+        var requestEntity = RequestEntity.get(URI.create(TENNIS_MATCHES_PATH))
+                .header(USER_ID_HEADER_KEY, "1234")
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
@@ -45,12 +47,37 @@ public class TennisMatchesServiceTest {
 
     @Test
     public void retrieveOneLicensedMatchForACustomerThatHasPurchasedIt() {
-        var requestEntity = RequestEntity.get(URI.create("/tennis-matches?purchaseStatus=licensed"))
-                .header("User-Id", "5678")
+        var requestEntity = RequestEntity.get(URI.create(TENNIS_MATCHES_PATH))
+                .header(USER_ID_HEADER_KEY, "5678")
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThatJson(responseEntity.getBody()).isEqualTo(Resources.readFile("expectations/get-one-match.json"));
+    }
+
+    @Test
+    public void aMatchCanBePurchasedByMultipleCustomers() {
+        var requestEntity = RequestEntity.get(URI.create(TENNIS_MATCHES_PATH))
+                .header(USER_ID_HEADER_KEY, "5678")
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThatJson(responseEntity.getBody()).isEqualTo(Resources.readFile("expectations/get-one-match.json"));
+
+        requestEntity = RequestEntity.get(URI.create(TENNIS_MATCHES_PATH))
+                .header(USER_ID_HEADER_KEY, "8736")
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        responseEntity = restTemplate.exchange(requestEntity, String.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 

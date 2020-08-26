@@ -16,4 +16,14 @@
         </attributes>
     </entity>
 
+    <entity class="com.imgarena.tennis_matches.domain.PurchasedLicense" access="FIELD">
+        <attributes>
+            <id name="id" />
+            <basic name="customerBuyerId">
+                <column name="customer_buyer_id" />
+            </basic>
+            <many-to-one name="tennisMatch" fetch="LAZY" />
+        </attributes>
+    </entity>
+
 </entity-mappings>

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
-    url: jdbc:hsqldb:file:~/tennis-matches-data/tennis-matches
+    url: jdbc:hsqldb:file:./target/tennis-matches-data/tennis-matches
     username: sa
     password:
   jpa:

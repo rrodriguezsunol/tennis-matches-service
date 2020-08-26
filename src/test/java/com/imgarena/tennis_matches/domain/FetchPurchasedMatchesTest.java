@@ -47,7 +47,7 @@ public class FetchPurchasedMatchesTest {
         LocalDateTime matchStartDateTime = LocalDateTime.parse("2020-07-15T18:00:00");
 
         given(mockedTennisMatchPersistence.findByCustomerBuyerId(any()))
-                .willReturn(List.of(new TennisMatch(1, matchStartDateTime, "Rafael Nadal", "Roger Federer", "5678")));
+                .willReturn(List.of(new TennisMatch(1, matchStartDateTime, "Rafael Nadal", "Roger Federer")));
 
         Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.byCustomerId("5678");
 

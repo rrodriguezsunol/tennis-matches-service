@@ -44,7 +44,7 @@ public class TennisMatchPersistenceTest {
                 1,
                 LocalDateTime.parse("2020-07-15T18:00:00"),
                 "Rafael Nadal",
-                "Roger Federer",
-                customerWithOneMatchPurchased));
+                "Roger Federer"
+        ));
     }
 }

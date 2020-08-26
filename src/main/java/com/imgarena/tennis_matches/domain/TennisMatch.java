@@ -8,17 +8,15 @@ public class TennisMatch {
     private LocalDateTime startDateTime;
     private String playerAName;
     private String playerBName;
-    private String customerBuyerId;
 
     // JPA requirement
     protected TennisMatch() {}
 
-    public TennisMatch(Integer id, LocalDateTime startDateTime, String playerAName, String playerBName, String customerBuyerId) {
+    public TennisMatch(Integer id, LocalDateTime startDateTime, String playerAName, String playerBName) {
         this.id = id;
         this.startDateTime = startDateTime;
         this.playerAName = playerAName;
         this.playerBName = playerBName;
-        this.customerBuyerId = customerBuyerId;
     }
 
     public Integer getId() {
@@ -45,13 +43,12 @@ public class TennisMatch {
         return Objects.equals(id, that.id) &&
                 Objects.equals(startDateTime, that.startDateTime) &&
                 Objects.equals(playerAName, that.playerAName) &&
-                Objects.equals(playerBName, that.playerBName) &&
-                Objects.equals(customerBuyerId, that.customerBuyerId);
+                Objects.equals(playerBName, that.playerBName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startDateTime, playerAName, playerBName, customerBuyerId);
+        return Objects.hash(id, startDateTime, playerAName, playerBName);
     }
 
     @Override
@@ -61,7 +58,6 @@ public class TennisMatch {
                 ", startDateTime=" + startDateTime +
                 ", playerAName='" + playerAName + '\'' +
                 ", playerBName='" + playerBName + '\'' +
-                ", customerBuyerId='" + customerBuyerId + '\'' +
                 '}';
     }
 }
