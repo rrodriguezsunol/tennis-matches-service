@@ -9,7 +9,7 @@
         <comment>Initial schema</comment>
 
         <createTable tableName="tennis_match">
-            <column name="id" type="integer">
+            <column name="id" type="integer" autoIncrement="true" startWith="1">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="start_date_time" type="timestamp">
@@ -24,7 +24,7 @@
         </createTable>
 
         <createTable tableName="purchased_license">
-            <column name="id" type="integer">
+            <column name="id" type="integer" autoIncrement="true" startWith="1">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="tennis_match_id" type="integer">
@@ -40,19 +40,16 @@
         <comment>Initial data</comment>
 
         <insert tableName="tennis_match">
-            <column name="id" value="1" />
             <column name="start_date_time" value="2020-07-15 18:00:00" />
             <column name="player_a_name" value="Rafael Nadal" />
             <column name="player_b_name" value="Roger Federer" />
         </insert>
 
         <insert tableName="purchased_license">
-            <column name="id" value="1" />
             <column name="tennis_match_id" value="1" />
             <column name="customer_buyer_id" value="5678" />
         </insert>
         <insert tableName="purchased_license">
-            <column name="id" value="2" />
             <column name="tennis_match_id" value="1" />
             <column name="customer_buyer_id" value="8736" />
         </insert>
