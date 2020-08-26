@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("dev")
 public class TennisMatchesServiceTest {
     private static final String USER_ID_HEADER_KEY = "User-Id";
-    private static final String TENNIS_MATCHES_PATH = "/tennis-matches?purchaseStatus=licensed";
+    private static final String TENNIS_MATCHES_PATH = "/tennis-matches";
 
     @Autowired
     private TestRestTemplate restTemplate;
