@@ -1,14 +1,16 @@
 spring:
   datasource:
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
-    url: jdbc:hsqldb:hsql://localhost/tennis-matches
+    url: jdbc:hsqldb:file:~/tennis-matches
     username: sa
     password:
   jpa:
-    # This setting disables the OpenSessionInViewFilter as we don't want the view layer manage the lifecycle of the
+    # This setting disables the OpenSessionInViewFilter as we don't want the view layer to manage the lifecycle of the
     # EntityManager for the current request. More info can be found here:
     # https://vladmihalcea.com/the-open-session-in-view-anti-pattern/
     open-in-view: false
     properties:
       hibernate.dialect: org.hibernate.dialect.HSQLDialect
       hibernate.hbm2ddl.auto: none
+  liquibase:
+    change-log: classpath:db/db-changelog-master.xml

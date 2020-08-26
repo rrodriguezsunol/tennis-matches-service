@@ -1,5 +1,6 @@
 package com.imgarena.tennis_matches;
 
+import com.imgarena.tennis_matches.util.Resources;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -28,10 +29,10 @@ public class TennisMatchesServiceTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void retrieveZeroLicensedMatchesForCustomerWithoutPurchases() {
+    public void retrieveZeroLicensedMatchesForACustomerWithoutPurchases() {
 
-        var requestEntity = RequestEntity.get(URI.create("/matches?purchaseStatus=licensed"))
-                .header("User-Id", "12345")
+        var requestEntity = RequestEntity.get(URI.create("/tennis-matches?purchaseStatus=licensed"))
+                .header("User-Id", "1234")
                 .accept(MediaType.APPLICATION_JSON)
                 .build();
 
@@ -40,5 +41,19 @@ public class TennisMatchesServiceTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         assertThatJson(responseEntity.getBody()).isEqualTo("[]");
+    }
+
+    @Test
+    public void retrieveOneLicensedMatchForACustomerThatHasPurchasedIt() {
+        var requestEntity = RequestEntity.get(URI.create("/tennis-matches?purchaseStatus=licensed"))
+                .header("User-Id", "5678")
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        assertThatJson(responseEntity.getBody()).isEqualTo(Resources.readFile("expectations/get-one-match.json"));
     }
 }

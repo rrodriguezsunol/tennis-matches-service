@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+    <changeSet id="1" author="raimon">
+        <comment>Initial schema</comment>
+
+        <!-- TODO: create `player` table -->
+
+        <createTable tableName="tennis_match">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="player_a_name" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="player_b_name" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="customer_buyer_id" type="char(4)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="raimon">
+        <comment>Initial data</comment>
+
+        <insert tableName="tennis_match">
+            <column name="id" value="1" />
+            <column name="player_a_name" value="Rafael Nadal" />
+            <column name="player_b_name" value="Roger Federer" />
+            <column name="customer_buyer_id" value="5678" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
