@@ -81,16 +81,15 @@ your favourite browser.
 
 ### Run the Application Service Locally
 
-Assuming you've already built this project following the previous instructions, go to the `target` directory and boot up 
-the Restful service by executing the following command: 
+Assuming you've already built this project following the previous instructions and you're on this project's root directory, 
+boot up the Restful service by executing the following command: 
 
-> `java -jar tennis-matches-service-X.X.X-SNAPSHOT.jar --spring.profiles.active=dev`
+> `java -jar target/tennis-matches-service-1.0-SNAPSHOT.jar --spring.profiles.active=dev`
 
 Enter `http://localhost:8080/tennis-matches` in the URL of your web browser. You should get a JSON back with all the 
 matches that were inserted as part of the `db-changelog-master.xml` liquibase migration script. 
 
-In order to retrieve matches purchased by specific customers, you need to use the HTTP Header `User-Id`. These are the list
-of customer ids:
+In order to retrieve matches purchased by specific customers, you need to specify the HTTP Header `User-Id` with one of the following values:
 
 * 1234
 * 5678
@@ -122,6 +121,12 @@ The test code uses these main libraries:
 
 * This service assumes that there's a API Gateway - Security duo that populates a *user profile info* header from the access token header provided by the client, be it web
 or mobile app. For the purposes of this exercise and in order to keep things simple, **User-Id** acts as the user profile info header.
-* The `purchaseStatus` query param is an enumeration of values. This allows for a more flexible param that can be used to retrieve not only a customer's purchased matches but
-also list the ones that are available for purchase, or the entire set (purchased and non-purchased).
 * The column `tennis_match.start_date_time` is a timestamp without timezone. All the dates stored are assumed to be in UTC time.
+
+## Improvements
+
+* Implement a more sophisticated `summary` with the time, as suggested in the exercise.
+* Create an entity called `Player`, rather than having `playerA` and `playerB` as simple Strings.
+* Create a `Customer` entity.
+* A `purchaseStatus` query param that can be used to retrieve not only a customer's purchased matches but
+also list the ones that are available for purchase, or the entire set (purchased and non-purchased).
