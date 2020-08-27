@@ -40,14 +40,11 @@ public class FetchPurchasedMatches {
     }
 
     private TennisMatchDto toDto(TennisMatch tennisMatch) {
-        String playerAName = tennisMatch.getPlayerAName();
-        String playerBName = tennisMatch.getPlayerBName();
-
         return new TennisMatchDto(
                 tennisMatch.getId(),
                 tennisMatch.getStartDateTime().atZone(ZoneOffset.UTC),
-                playerAName,
-                playerBName,
-                String.format("%s vs %s", playerAName, playerBName));
+                tennisMatch.getPlayerAName(),
+                tennisMatch.getPlayerBName(),
+                tennisMatch.getSummary());
     }
 }

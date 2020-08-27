@@ -40,6 +40,10 @@ public class TennisMatch {
         return tournament;
     }
 
+    public String getSummary() {
+        return String.format("%s vs %s", playerAName, playerBName);
+    }
+
     // Equals and Hashcode implementations that avoid fetching associated entities inadvertently
     @Override
     public boolean equals(Object o) {
