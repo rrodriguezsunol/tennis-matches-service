@@ -4,6 +4,7 @@ import com.imgarena.tennis_matches.dto.TennisMatchDto;
 import com.imgarena.tennis_matches.persistence.TennisMatchPersistence;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 
 public class FetchPurchasedMatchesTest {
 
@@ -117,4 +119,25 @@ public class FetchPurchasedMatchesTest {
                         "Andy Murray vs Novak Djokovic")
         );
     }
+
+    @Test
+    public void retrievesAllMatchesWhenCustomerIdIsNull() {
+        given(mockedTennisMatchPersistence.findAll())
+                .willReturn(List.of(new TennisMatch(1, LocalDateTime.parse("2020-07-15T18:00:00"), "Rafael Nadal", "Roger Federer")));
+
+        Collection<TennisMatchDto> foundMatches = fetchPurchasedMatches.forCustomer(null);
+
+        BDDMockito.then(mockedTennisMatchPersistence).should(never()).findAllInTournamentPurchases(any());
+        BDDMockito.then(mockedTennisMatchPersistence).should(never()).findSinglePurchases(any());
+
+        assertThat(foundMatches).containsOnly(
+                new TennisMatchDto(
+                        1,
+                        ZonedDateTime.parse("2020-07-15T18:00:00Z"),
+                        "Rafael Nadal",
+                        "Roger Federer",
+                        "Rafael Nadal vs Roger Federer"));
+
+    }
+
 }

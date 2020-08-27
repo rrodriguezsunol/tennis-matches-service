@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,20 +19,24 @@ public class FetchPurchasedMatches {
     }
 
     public Collection<TennisMatchDto> forCustomer(String customerId) {
-        List<TennisMatchDto> singleMatchPurchases = tennisMatchPersistence.findSinglePurchases(customerId)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+        if (Objects.isNull(customerId)) {
+            return toDtos(tennisMatchPersistence.findAll());
+        }
 
-        List<TennisMatchDto> tournamentMatchesPurchases = tennisMatchPersistence.findAllInTournamentPurchases(customerId)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+        var singleMatchPurchases = toDtos(tennisMatchPersistence.findSinglePurchases(customerId));
 
-        List<TennisMatchDto> allMatches = new ArrayList<>(singleMatchPurchases);
+        var tournamentMatchesPurchases = toDtos(tennisMatchPersistence.findAllInTournamentPurchases(customerId));
+
+        var allMatches = new ArrayList<>(singleMatchPurchases);
         allMatches.addAll(tournamentMatchesPurchases);
 
         return allMatches;
+    }
+
+    private Collection<TennisMatchDto> toDtos(Collection<TennisMatch> tennisMatches) {
+        return tennisMatches.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     private TennisMatchDto toDto(TennisMatch tennisMatch) {
