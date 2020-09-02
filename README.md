@@ -122,7 +122,7 @@ The test code uses these main libraries:
 * This project follows the ideas and principles of a concentric circle architecture as explained by Uncle Bob in [The Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) article. The packages of this project are organised in such a way as to reflect said architecture and avoid cyclic dependencies.
     * **`domain`**: encircles the core of the service. It contains the entities that model it, as well as its business logic, in the form of use cases.
     * **`endpoint`**: in here you'll find all the endpoints, i.e. the REST API exposed to the public. This package can only depend on `dto` and `domain`.
-    * **`persistence`**: contains all the repositories that persist domain entities. Changes on the ORM or any persistence-related library may affect classes and interfaces found here. They cannot depend on use cases, `dto`s nor gateways to other external services.
+    * **`persistence`**: a gagteway. Contains all the repositories that persist domain entities. Changes on the ORM or any persistence-related library may affect classes and interfaces found here. They cannot depend on use cases, `dto`s nor gateways to other external services. They can depend on entities.
     * **`dto`**: stands for "Data Transfer Objects". As the name implies, it contains classes that are meant for
 transferring data from the domain in and out of the application. Therefore, they're coupled to the de/serialisation frameworks. These classes must only have fields and getters. They must not contain any business logic. They cannot depend on neither `domain`, `endpint` nor `persistence`.
 
