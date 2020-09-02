@@ -119,10 +119,12 @@ The test code uses these main libraries:
 
 ## Design Decisions
 
-* This project follows the ideas and principles of a concentric circle architecture as explained by Uncle Bob in [The Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) article. The packages of this project are organised in such a way as to reflect said architecture.
+* This project follows the ideas and principles of a concentric circle architecture as explained by Uncle Bob in [The Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) article. The packages of this project are organised in such a way as to reflect said architecture and avoid cyclic dependencies.
     * **`domain`**: encircles the core of the service. It contains the entities that model it, as well as its business logic, in the form of use cases.
     * **`endpoint`**: in here you'll find all the endpoints, i.e. the REST API exposed to the public. This package can only depend on `dto` and `domain`.
-    * **`persistence`**: contains all the repositories that persist domain entities. Changes on the ORM or any persistence-related library may affect classes and interfaces found here. They cannot depend on `usecase`, nor gateways to other external services.
+    * **`persistence`**: contains all the repositories that persist domain entities. Changes on the ORM or any persistence-related library may affect classes and interfaces found here. They cannot depend on use cases, `dto`s nor gateways to other external services.
+    * **`dto`**: stands for "Data Transfer Objects". As the name implies, it contains classes that are meant for
+transferring data from the domain in and out of the application. Therefore, they're coupled to the de/serialisation frameworks. These classes must only have fields and getters. They must not contain any business logic. They cannot depend on neither `domain`, `endpint` nor `persistence`.
 
 * This service assumes that there's a API Gateway - Security duo that populates a *user profile info* header from the access token header provided by the client, be it web
 or mobile app. For the purposes of this exercise and in order to keep things simple, **User-Id** acts as the user profile info header. Another alternative API design considered was `/customer/{id}/tennis-matches` but this path couples the `match` resource with the customers and their purchases domain, which limits its reusability.
