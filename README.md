@@ -91,10 +91,10 @@ matches that were inserted as part of the `db-changelog-master.xml` liquibase mi
 
 In order to retrieve matches purchased by specific customers, you need to specify the HTTP Header `User-Id` with one of the following values:
 
-* 1234
-* 5678
-* 2904
-* 8736
+* 1234: no purchase.
+* 5678: purchased a single match.
+* 2904: purchased a tournament
+* 8736: purchased a single match.
 
 ## Tech Stack
 
@@ -137,3 +137,4 @@ or mobile app. For the purposes of this exercise and in order to keep things sim
 * Create a `Customer` entity.
 * A `purchaseStatus` query param that can be used to retrieve not only a customer's purchased matches but
 also list the ones that are available for purchase, or the entire set (purchased and non-purchased).
+* Separate the liquibase changeset out of the master file and into a different one. Then have master import this changeset file and any future ones. This helps keeping the master file small.
