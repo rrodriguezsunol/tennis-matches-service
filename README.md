@@ -119,6 +119,7 @@ The test code uses these main libraries:
 
 ## Design Decisions
 
+* This project follows the ideas and principles of a concentric circle architecture as explained by Uncle Bob in [The Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) article. The packages of this project are organised in such a way as to reflect said architecture.
 * This service assumes that there's a API Gateway - Security duo that populates a *user profile info* header from the access token header provided by the client, be it web
 or mobile app. For the purposes of this exercise and in order to keep things simple, **User-Id** acts as the user profile info header.
 * The column `tennis_match.start_date_time` is a timestamp without timezone. All the dates stored are assumed to be in UTC time.
